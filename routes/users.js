@@ -4,12 +4,8 @@ var express         = require('express')
 
 /* GET home page. */
 router.get('/sign_in', function(req, res) {
-  if (!req.user) {
-    res.render('users/sign_in', {});
-  }
-  else {
-    res.redirect('/');
-  }
+  if (!req.user) { res.render('users/sign_in', {}); }
+  else { res.redirect('/'); }
 });
 
 router.get('/sign_up', function(req, res) {
@@ -19,11 +15,9 @@ router.get('/sign_up', function(req, res) {
 
 router.post('/sessions', function(req, res) {
   processor = new UsersProcessor();
-  if (processor.create_user(req.body.user)) {
-    res.redirect('/');
-  } else {
-    res.redirect('/users/sign_up');
-  }
+
+  if (processor.create_user(req.body.user)) { res.redirect('/'); }
+  else { res.redirect('/users/sign_up'); }
 });
 
 module.exports = router;
