@@ -1,9 +1,9 @@
 {
-  "name":    "garage.mx",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": { "start": "node ./bin/www" },
-  "engines": { "node" :  "0.10.x"        },
+  "name"        : "garage.mx",
+  "version"     : "0.0.1",
+  "private"     : true,
+  "scripts"     : { "start": "node ./bin/www" },
+  "engines"     : { "node" :  "0.10.x"        },
   "dependencies": {
     "express"         : "~4.2.0",
     "static-favicon"  : "~1.0.0",
@@ -13,6 +13,8 @@
     "debug"           : "~0.7.4",
     "jade"            : "~1.3.0",
     "stylus"          : "~0.46.3",
-    "mongoose"        : "3.8.12"
+    "mongoose"        : "3.8.12",
+    "passport"        : "0.2.0",
+    "nodemon"         : "1.2.0"
   }
 }
