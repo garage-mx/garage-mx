@@ -3,8 +3,10 @@ var express      = require('express')
   , favicon      = require('static-favicon')
   , logger       = require('morgan')
   , cookieParser = require('cookie-parser')
+  , session      = require('cookie-session')
   , bodyParser   = require('body-parser')
   , routes       = require('./routes/index')
+  , passport     = require('passport')
   , app          = express();
 
 // view engine setup
@@ -18,6 +20,9 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({ keys: ['1234asdf', '0987ljkh'], secureProxy: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', routes);
 
