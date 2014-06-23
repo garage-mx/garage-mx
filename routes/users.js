@@ -1,9 +1,23 @@
-var express = require('express');
-var router = express.Router();
+var express         = require('express')
+  , router          = express.Router()
+  , UsersProcessor  = require('../processors/users_processor');
 
-/* GET users listing. */
-router.get('/', function(req, res) {
-  res.send('respond with a resource');
+/* GET home page. */
+router.get('/sign_in', function(req, res) {
+  if (!req.user) { res.render('users/sign_in', {}); }
+  else { res.redirect('/'); }
+});
+
+router.get('/sign_up', function(req, res) {
+  if (!req.user) { res.render('users/sign_up', {}); }
+  else { res.redirect('/'); }
+});
+
+router.post('/sessions', function(req, res) {
+  processor = new UsersProcessor();
+
+  if (processor.create_user(req.body.user)) { res.redirect('/'); }
+  else { res.redirect('/users/sign_up'); }
 });
 
 module.exports = router;
