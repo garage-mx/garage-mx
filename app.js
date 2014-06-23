@@ -6,6 +6,7 @@ var express      = require('express')
   , session      = require('cookie-session')
   , bodyParser   = require('body-parser')
   , routes       = require('./routes/index')
+  , users        = require('./routes/users')
   , passport     = require('passport')
   , app          = express();
 
@@ -24,7 +25,8 @@ app.use(session({ keys: ['1234asdf', '0987ljkh'], secureProxy: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/', routes);
+app.use('/',      routes);
+app.use('/users', users);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
