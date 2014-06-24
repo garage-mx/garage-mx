@@ -1,0 +1,12 @@
+extends ../layout
+
+block content
+  h1 Nuevo
+  form(action='/products/new', method='POST')
+    label Nombre
+    input(type='text', name='product[name]') 
+    label Categoria
+    input(type='text', name='product[category]')
+    label Precio
+    input(type='text', name='product[price]')
+    input(type='submit', value="Guardar")
