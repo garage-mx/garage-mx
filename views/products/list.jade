@@ -3,10 +3,10 @@ extends ../layout
 block content
   h1 Productos
   p Lista de productos
-  //table
-  //  - each item in products
-  //    tr
-  //      td= item.name
+  table
+    - each item in products
+      tr
+        td= item.name
   - each item in products
     label= item.name
 

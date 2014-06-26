@@ -38,7 +38,7 @@ producto.save(function (err, producto) {
   if (err) return console.error(err);
   console.error("Guardado con exito");
 });
-*/
+/*
 
 /*
 // Con esta funcion elimino todos los productos de cierta categoria
@@ -58,7 +58,7 @@ Product.update({ name: 'Disco duro' }, { name: 'SSD' }, function (err, numberAff
 */
 // Esto se trae todos los registros del modelo Product
 // This function is like a select query that show all the productos of Product model 
-var Database.productsList = function()
+exports.funciones = function()
 {
   var valor = null;
   return {
@@ -67,6 +67,7 @@ var Database.productsList = function()
       Product.find(function (err, productos) {
         if (err) return console.error(err);
         valor = JSON.stringify(productos);
+        console.log(productos);
         result(valor);
       });
     }
@@ -97,7 +98,7 @@ router.route('/new')
   });
 
 router.get('/list',function(req, res){
-  console.log(Database(function(data){ return data; }));
-  res.render('products/list', { title: 'Lista de productos', products: productsList });
+  console.log(exports.funciones.productsList(function(data){ console.log(data); }));
+  res.render('products/list', { title: 'Lista de productos', products: exports.productsList() });
 });
 module.exports = router;
