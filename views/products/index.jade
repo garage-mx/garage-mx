@@ -1,0 +1,27 @@
+extends ../layout
+
+block content
+  h1 Productos
+  p Construyendo
+  a(href='/products/new') Nuevo producto
+
+  table
+    thead
+      tr
+        th Nombre
+        th Categoría
+        th Precio
+        th(colspan="2") Acciones
+    tbody
+      each product in products
+        tr
+          td
+            = product.name
+          td
+            = product.category
+          td
+            = product.price
+          td
+            a(href="/products/#{product.id}/edit") Editar
+          td
+            a(href="/products/#{product.id}/destroy") Borrar
