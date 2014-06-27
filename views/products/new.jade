@@ -2,11 +2,18 @@ extends ../layout
 
 block content
   h1 Nuevo
-  form(action='/products/new', method='POST')
-    label Nombre
-    input(type='text', name='product[name]') 
-    label Categoria
-    input(type='text', name='product[category]')
-    label Precio
-    input(type='text', name='product[price]')
-    input(type='submit', value="Guardar")
+  form(action='/products', method='POST')
+    div
+      label(for="product_name") Nombre
+      input(id="product_name", type='text', name='product[name]')
+
+    div
+      label(for="product_category") Categoria
+      input(id="product_category", type='text', name='product[category]')
+
+    div
+      label(for="product_price") Precio
+      input(id="product_price", type='text', name='product[price]')
+
+    div
+      input(type='submit', value="Guardar")
