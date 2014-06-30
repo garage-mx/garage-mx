@@ -11,11 +11,5 @@ block content
           a(href='/products/update/#{item.id}') Editar
         td
           a(href='/products/delete/#{item.id}') Borrar
-  - each item in products
-    label= item.name
-
+  br
   a(href='/products/new') Nuevo producto
-  br
-  a(href='/products/update') Actualizar productos
-  br
-  a(href='/productos/remove') Eliminar productos
