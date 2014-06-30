@@ -7,6 +7,10 @@ block content
     - each item in products
       tr
         td= item.name
+        td
+          a(href='/products/update/#{item.id}') Editar
+        td
+          a(href='/products/delete/#{item.id}') Borrar
   - each item in products
     label= item.name
 
