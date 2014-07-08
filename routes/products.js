@@ -17,14 +17,13 @@ router.get('/new', function(req, res) {
 });
 
 router.post('/new', function(req, res) {
-  var product = req.param('product');
   // Creamos una instancia del objeto Product con información desde el inicio
   // We create a Product object instance with information since beginning 
-  var producto = new Product({ name: product.name, category: product.category, price: product.price })
+  var product =  new Product(req.param('product'));
 
   // Con esta funcion guardamos el producto en el modelo Product
   // This function save the prouducto object in Product model
-  producto.save(function (err, producto) {
+  product.save(function (err, product) {
     if (err) {
       return console.error(err);
     }
