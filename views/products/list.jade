@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+  h1 Productos
+  p Lista de productos
+  table
+    - each item in products
+      tr
+        td= item.name
+        td
+          a(href='/products/update/#{item.id}') Editar
+        td
+          a(href='/products/delete/#{item.id}') Borrar
+  br
+  a(href='/products/new') Nuevo producto
