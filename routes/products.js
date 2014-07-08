@@ -49,10 +49,15 @@ router.post('/new', function(req, res) {
   // Con esta funcion guardamos el producto en el modelo Product
   // This function save the prouducto object in Product model
   producto.save(function (err, producto) {
-    if (err) return console.error(err);
-    console.error("Guardado con exito");
+    if (err) {
+      return console.error(err);
+    }
+    else{
+      console.error("Guardado con exito");
+      res.redirect('/products');
+    }
   });
-  res.redirect('/products');
+  
 });
 
 router.get('/',function(req, res){
