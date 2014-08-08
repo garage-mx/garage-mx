@@ -21,7 +21,9 @@ function ensureAuthenticated(req, res, next) {
   res.redirect('/login');
 }
 
-router.all('/new',ensureAuthenticated).get('/new', function(req, res) {
+router.all('*',ensureAuthenticated);
+
+router.get('/new', function(req, res) {
     res.render('products/new', { title: 'Nuevo Producto' });
 });
 
