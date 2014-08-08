@@ -91,23 +91,6 @@ passport.use(new LocalStrategy(
   }
 ));
 
-var products = function(req, res, next)
-{
-    console.log(req.flash('auth'));
-    if(req.flash('auth')[0]!="true")
-    { 
-        console.log("Autenticando");
-        passport.authenticate('local', {
-            successRedirect: '/loginSuccess',
-            failureRedirect: '/login'
-        })
-    }
-    else 
-    {
-        console.log("falla");
-    }
-};
-
 app.use('/', routes);
 app.use('/users', users);
 app.use('/products', products);
