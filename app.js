@@ -69,6 +69,11 @@ app.get('/loginSuccess', function(req, res, next) {
   res.send('Successfully authenticated');
 });
 
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
+
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
