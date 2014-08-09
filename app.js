@@ -4,10 +4,24 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session')
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var products = require('./routes/products');
+
+/*-------Passport--------*/
+var flash = require('connect-flash');
+// Passport files
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+// Mongoose for login with passport
+var login_db = require('mongoose');
+login_db.connect('mongodb://localhost/test');
+// Passport files
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
 
 var app = express();
 
@@ -22,6 +36,60 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({secret: 'keyboard cat'}))
+app.use(flash());
+// Middleware for passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+// User schema for passport
+var Schema = login_db.Schema;
+var UserDetail = new Schema({
+      username: String,
+      password: String
+    }, {
+      collection: 'userInfo'
+    });
+var UserDetails = login_db.model('userInfo', UserDetail);
+
+// Default view for login with passport
+app.get('/login', function(req, res) {
+  res.render('login', { title: 'Login'});
+});
+
+app.post('/login',
+  passport.authenticate('local', {
+    successRedirect: '/loginSuccess',
+    failureRedirect: '/login'
+  })
+);
+ 
+app.get('/loginSuccess', function(req, res, next) {
+  req.flash('auth', 'true');
+  res.send('Successfully authenticated');
+});
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+ 
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    process.nextTick(function () {
+        UserDetails.findOne({'username':username},
+        function(err, user) {
+        if (err) { return done(err); }
+        if (!user) { return done(null, false); }
+        if (user.password != password) { return done(null, false); }
+        return done(null, user);
+        });
+    });
+  }
+));
 
 app.use('/', routes);
 app.use('/users', users);
@@ -57,6 +125,5 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
-
 
 module.exports = app;
