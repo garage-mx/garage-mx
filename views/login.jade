@@ -2,9 +2,15 @@ extends layout
 
 block content
   h1 Iniciar sesión
-  form(action='/login', method='POST')
-    label Username:
+  form(action='/login', method='POST', class="login-form")
+    label Usuario:
     input(type='text', name='username')
-    label Password:
+    br
+    label Contraseña:
     input(type='password', name='password')
+    - if(url == undefined || url == 'undefined')
+      input(type="hidden", name="url", value="/")
+    - else
+      input(type="hidden", name="url", value="#{url}")
+    br
     input(type='submit', value="Entrar")

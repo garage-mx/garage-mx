@@ -54,14 +54,20 @@ var UserDetails = login_db.model('userInfo', UserDetail);
 
 // Default view for login with passport
 app.get('/login', function(req, res) {
-  res.render('login', { title: 'Login'});
+  res.render('login', { title: 'Login', url: req.query.url });
 });
 
 app.post('/login',
-  passport.authenticate('local', {
-    successRedirect: '/loginSuccess',
-    failureRedirect: '/login'
-  })
+    passport.authenticate('local', { failureRedirect: '/login' }),  
+    function(req, res) {
+      // if the user was trying to enter to an especific URL this function redirect after authtentication
+      if(JSON.stringify(req.body.url) == 'undefined' || JSON.stringify(req.body.url) == undefined){
+        res.redirect('/');
+      }
+      else{
+        res.redirect(req.body.url);
+      }
+    }
 );
  
 app.get('/loginSuccess', function(req, res, next) {
