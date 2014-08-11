@@ -11,13 +11,17 @@ db.once('open', function callback () {
 
 // Esquema inicial del Modelo Product
 // Initial schema of Model Product
+var Schema = mongoose.Schema,
+    ObjectId = Schema.ObjectId;
 var productSchema = mongoose.Schema({
     name: String,
     description: Date,
     creationDate: Date,
     updateDate: String, 
     category: String,
-    price: Number
+    price: Number,
+    userId: ObjectId,
+    State: String
 });
 
 var Product = mongoose.model('Product', productSchema);

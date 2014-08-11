@@ -34,7 +34,8 @@ router.post('/new', authFilter, function(req, res) {
   // Creamos una instancia del objeto Product con información desde el inicio
   // We create a Product object instance with information since beginning 
   var product =  new Product(req.param('product'));
-
+  product.userId = req.user._id;
+  product.creationDate = new Date();
   // Con esta funcion guardamos el producto en el modelo Product
   // This function save the prouducto object in Product model
   product.save(function (err, product) {
@@ -70,7 +71,10 @@ router.get('/update/:id', authFilter, function(req, res){
 router.post('/update', authFilter, function(req, res){
   // Busca el producto con id enviado por el usuario y obtiene el contenido
   // Search the product envoy by user and get the respective object 
-  Product.update({ _id: req.param('id') }, {$set: req.param('product')}, function (err, producto) {
+  var product = new Product(req.param('product'));
+  product.updateDate = new Date();
+
+  Product.update({ _id: req.param('id') }, {$set: product }, function (err, producto) {
     if (err) return console.error(err);
     res.redirect('/products');
   });
@@ -102,7 +106,7 @@ router.get('/search', function(req, res){
   // This function is like a select query that show all the productos of Product model 
   Product.find({ name: { $regex: re } }, function (err, productos) {
     if (err) return console.error(err);
-    res.render('products/list', { title: 'Productos encontrados', products: productos });
+    res.render('products/results_list', { title: 'Productos encontrados', products: productos });
   });
 });
 
