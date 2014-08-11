@@ -6,6 +6,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
+// Plugin that formats dates
+var moment = require('moment');
+// Plugin that formats numerical values
+var numeral = require('numeral');
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var products = require('./routes/products');
@@ -41,6 +46,9 @@ app.use(flash());
 // Middleware for passport
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.locals.moment = require('moment');
+app.locals.numeral =require('numeral');
 
 // User schema for passport
 var Schema = login_db.Schema;

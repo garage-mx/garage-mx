@@ -2,7 +2,7 @@
   "name":    "garage.mx",
   "version": "0.0.1",
   "private": true,
-  "scripts": { "start": "node ./bin/www" },
+  "scripts": { "start": "nodemon ./bin/www" },
   "engines": { "node" :  "0.10.x"        },
   "dependencies": {
     "express"         : "~4.2.0",
@@ -17,6 +17,8 @@
     "express-session" : "1.6.5",
     "passport"        : "0.2.0",
     "passport-local"  : "1.0.0",
-    "connect-flash"   : "0.1.1"
+    "connect-flash"   : "0.1.1",
+    "moment"          : "2.8.1",
+    "numeral"         : "1.5.3"
   }
 }

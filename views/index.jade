@@ -5,9 +5,10 @@ block content
 
 	.results-list.row
 		- each item in products
-			.product
-				a.name(href="/products/detail/#{item.id}")= item.name
-				label= "$"+item.price
-				label= item.state
-				.image
+			.product.col-sm-12.row
+				.image.col-sm-4
+				.details.col-sm-8
+					a.name(href="/products/detail/#{item.id}")= item.name
+					label.price= numeral(item.price).format('$0,0.00')
+					label= item.state
 	br
