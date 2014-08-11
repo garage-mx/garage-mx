@@ -4,7 +4,7 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var session = require('express-session')
+var session = require('express-session');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -60,6 +60,11 @@ app.get('/login', function(req, res) {
 app.post('/login',
     passport.authenticate('local', { failureRedirect: '/login' }),  
     function(req, res) {
+      UserDetails.findOne({'username':req.body.username}, 
+        function(err, user){
+          req.session.username = user.username || null;
+          app.locals.username = user.username || null;
+      });
       // if the user was trying to enter to an especific URL this function redirect after authtentication
       if(JSON.stringify(req.body.url) == 'undefined' || JSON.stringify(req.body.url) == undefined){
         res.redirect('/');
@@ -77,6 +82,8 @@ app.get('/loginSuccess', function(req, res, next) {
 
 app.get('/logout', function(req, res){
   req.logout();
+  delete app.locals.username;
+  req.session.destroy();
   res.redirect('/');
 });
 
@@ -93,10 +100,10 @@ passport.use(new LocalStrategy(
     process.nextTick(function () {
         UserDetails.findOne({'username':username},
         function(err, user) {
-        if (err) { return done(err); }
-        if (!user) { return done(null, false); }
-        if (user.password != password) { return done(null, false); }
-        return done(null, user);
+          if (err) { return done(err); }
+          if (!user) { return done(null, false); }
+          if (user.password != password) { return done(null, false); }
+          return done(null, user);
         });
     });
   }

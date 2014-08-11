@@ -3,5 +3,25 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/normalize.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap.css')
   body
-    block content
+    header.row
+      .container
+        .col-sm-3
+          a(href="/")
+            h1 Garage.mx
+          form(method="GET" action="/products/search")
+            input(type="text" name="name" placeholder="Busqueda de productos")
+            input(type="submit" value="Buscar")
+        .col-sm-2.pull-right.user-menu
+          - if(username != null)
+            a(href="/logout") Cerrar sesión
+            br
+            a(href='/products') Mis productos
+          - else
+            a(href="/login") Iniciar sesión
+      
+    .container
+      block content
+    footer Derechos reservados garage.mx S.A. de C.V.
