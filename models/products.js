@@ -15,13 +15,19 @@ var Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId;
 var productSchema = mongoose.Schema({
     name: String,
-    description: Date,
+    description: String,
     creationDate: Date,
     updateDate: String, 
     category: String,
     price: Number,
     userId: ObjectId,
-    State: String
+    state: String,
+    imageUrl: String,
+    imageGalery: Object,
+    sales: Number,
+    visible: Boolean,
+    shippingMethod: Number,
+    shippingDescription: String
 });
 
 var Product = mongoose.model('Product', productSchema);
