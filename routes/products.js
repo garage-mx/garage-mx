@@ -16,22 +16,26 @@ Product.update({ name: 'Disco duro' }, { name: 'SSD' }, function (err, numberAff
 // the request is authenticated (typically via a persistent login session),
 // the request will proceed. Otherwise, the user will be redirected to the
 // login page.
-function ensureAuthenticated(req, res, next) {
+function authFilter(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login');
+  if(req.originalUrl.length==0)
+    res.redirect('/login');
+  else
+    res.redirect('/login?url='+req.originalUrl);
 }
 
-router.all('*',ensureAuthenticated);
+//router.all('*', authFilter); /* Autenticacion general por router */
 
-router.get('/new', function(req, res) {
+router.get('/new', authFilter, function(req, res) {
     res.render('products/new', { title: 'Nuevo Producto' });
 });
 
-router.post('/new', function(req, res) {
+router.post('/new', authFilter, function(req, res) {
   // Creamos una instancia del objeto Product con información desde el inicio
   // We create a Product object instance with information since beginning 
   var product =  new Product(req.param('product'));
-
+  product.userId = req.user._id;
+  product.creationDate = new Date();
   // Con esta funcion guardamos el producto en el modelo Product
   // This function save the prouducto object in Product model
   product.save(function (err, product) {
@@ -46,7 +50,7 @@ router.post('/new', function(req, res) {
   
 });
 
-router.get('/',function(req, res){
+router.get('/', authFilter,function(req, res){
   // Esto se trae todos los registros del modelo Product
   // This function is like a select query that show all the productos of Product model 
   Product.find(function (err, productos) {
@@ -55,7 +59,7 @@ router.get('/',function(req, res){
   });
 });
 
-router.get('/update/:id', function(req, res){
+router.get('/update/:id', authFilter, function(req, res){
   // Busca el producto con id enviado por el usuario y obtiene el contenido
   // Search the product envoy by user and get the respective object 
   Product.findById(req.param('id'), function (err, producto) {
@@ -64,21 +68,45 @@ router.get('/update/:id', function(req, res){
   });
 });
 
-router.post('/update', function(req, res){
+router.post('/update', authFilter, function(req, res){
   // Busca el producto con id enviado por el usuario y obtiene el contenido
   // Search the product envoy by user and get the respective object 
-  Product.update({ _id: req.param('id') }, {$set: req.param('product')}, function (err, producto) {
+  var product = new Product(req.param('product'));
+  product.updateDate = new Date();
+
+  Product.update({ _id: req.param('id') }, {$set: product }, function (err, producto) {
     if (err) return console.error(err);
     res.redirect('/products');
   });
 });
 
-router.get('/delete/:id',function(req, res){
+router.get('/delete/:id', authFilter,function(req, res){
   // Con esta funcion elimino todos los productos de cierta categoria
   // This function is a delete instruction that remove all Products with a specified category in the Product model
   Product.remove({ _id: req.param('id') }, function (err) {
     if (err) return handleError(err);
     res.redirect('/products');
+  });
+});
+
+// Show product details
+router.get('/detail/:id', function(req, res){
+  // Busca el producto con id enviado por el usuario y obtiene el contenido
+  // Search the product envoy by user and get the respective object 
+  Product.findById(req.param('id'), function (err, producto) {
+    if (err) return console.error(err);
+    res.render('products/detail', { title: 'Detalles', product: producto });
+  });
+});
+
+router.get('/search', function(req, res){
+  var search = req.query.name;
+  var re = new RegExp(search, 'i');
+  // Esto se trae todos los registros del modelo Product
+  // This function is like a select query that show all the productos of Product model 
+  Product.find({ name: { $regex: re } }, function (err, productos) {
+    if (err) return console.error(err);
+    res.render('products/results_list', { title: 'Productos encontrados', products: productos });
   });
 });
 

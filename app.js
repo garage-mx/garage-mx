@@ -4,7 +4,12 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var session = require('express-session')
+var session = require('express-session');
+
+// Plugin that formats dates
+var moment = require('moment');
+// Plugin that formats numerical values
+var numeral = require('numeral');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -42,6 +47,9 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.locals.moment = require('moment');
+app.locals.numeral =require('numeral');
+
 // User schema for passport
 var Schema = login_db.Schema;
 var UserDetail = new Schema({
@@ -54,19 +62,37 @@ var UserDetails = login_db.model('userInfo', UserDetail);
 
 // Default view for login with passport
 app.get('/login', function(req, res) {
-  res.render('login', { title: 'Login'});
+  res.render('login', { title: 'Login', url: req.query.url });
 });
 
 app.post('/login',
-  passport.authenticate('local', {
-    successRedirect: '/loginSuccess',
-    failureRedirect: '/login'
-  })
+    passport.authenticate('local', { failureRedirect: '/login' }),  
+    function(req, res) {
+      UserDetails.findOne({'username':req.body.username}, 
+        function(err, user){
+          req.session.username = user.username || null;
+          app.locals.username = user.username || null;
+      });
+      // if the user was trying to enter to an especific URL this function redirect after authtentication
+      if(JSON.stringify(req.body.url) == 'undefined' || JSON.stringify(req.body.url) == undefined){
+        res.redirect('/');
+      }
+      else{
+        res.redirect(req.body.url);
+      }
+    }
 );
  
 app.get('/loginSuccess', function(req, res, next) {
   req.flash('auth', 'true');
   res.send('Successfully authenticated');
+});
+
+app.get('/logout', function(req, res){
+  req.logout();
+  delete app.locals.username;
+  req.session.destroy();
+  res.redirect('/');
 });
 
 passport.serializeUser(function(user, done) {
@@ -82,10 +108,10 @@ passport.use(new LocalStrategy(
     process.nextTick(function () {
         UserDetails.findOne({'username':username},
         function(err, user) {
-        if (err) { return done(err); }
-        if (!user) { return done(null, false); }
-        if (user.password != password) { return done(null, false); }
-        return done(null, user);
+          if (err) { return done(err); }
+          if (!user) { return done(null, false); }
+          if (user.password != password) { return done(null, false); }
+          return done(null, user);
         });
     });
   }
