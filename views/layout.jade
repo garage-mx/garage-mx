@@ -9,8 +9,7 @@ html
     header.row
       .container
         .col-sm-3
-          a(href="/")
-            h1 Garage.mx
+          a(href="/"): h1 Garage.mx
           form(method="GET" action="/products/search")
             input(type="text" name="name" placeholder="Busqueda de productos")
             input(type="submit" value="Buscar")
@@ -23,5 +22,14 @@ html
             a(href="/login") Iniciar sesión
       
     .container
+      script(type='text/javascript', src='/scripts/jquery-1.11.1.min.js')
       block content
+      script(type='text/javascript').
+        $(document).ready(function(){
+          $("footer").on("click", function(){
+            $('html, body').stop().animate({
+                scrollTop: 0
+            }, 400);
+          });
+        });
     footer Derechos reservados garage.mx S.A. de C.V.

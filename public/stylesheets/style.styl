@@ -1,5 +1,68 @@
+$color_general = #f89e25
+$txt_color = #575757
+$anchor_color = #07C
+
+html
+	margin 0
+	padding 0
 body
-  padding: 50px
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
+	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
+	color $txt_color
+header
+	background $color_general
+	width 100%
+	border-bottom 1px solid #D57E0A
+	&.row
+		margin 0
+	&>div
+		margin 10px
+	a 
+		text-decoration none !important
+		h1
+			color white
+			margin 0
+	.user-menu
+		a
+			color $txt_color
+	form
+		display inline
+footer
+	background #151515
+	color #888
+	text-align center
+	height 40px
+	line-height 40px
+	position fixed
+	bottom 0
+	left 0
+	right 0
+	cursor pointer
 a
-  color: #00B7FF
+	color $anchor_color
+
+.form-login
+	input
+		display block
+	input[type=submit]
+		min-width 159px
+.form-newProduct
+	input
+		display block
+.results-list
+	&.row
+		margin 0
+	.product
+		min-height 80px
+		border-bottom 1px solid
+		margin-bottom 10px
+		padding-bottom 6px
+		.name
+			display block
+			font-size 18px
+			font-weight bold
+		.image
+			border 1px solid
+			width 200px
+			height 150px
+		.price
+			color #900
