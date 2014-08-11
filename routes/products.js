@@ -110,4 +110,8 @@ router.get('/search', function(req, res){
   });
 });
 
+router.post('/photos', function(req, res){
+  console.log(JSON.stringify(req.files));
+});
+
 module.exports = router;

@@ -2,15 +2,22 @@ extends ../layout
 
 block content
 	h1 Nuevo
-	form.form-newProduct(action='/products/new', method='POST')
+	form.form-newProduct(action='/products/new', method='POST', enctype="multipart/form-data")
 		label Nombre
 		input(type='text', name='product[name]') 
 		label Categoria
 		input(type='text', name='product[category]')
 		label Precio
 		input(type='text', name='product[price]', class="currency")
+		label Imagen
 		input(type='submit', value="Guardar")
-
+	form(id="uploadForm", enctype="multipart/form-data", action="/products/photos", method="post")
+		input(type="file" id="productPhotoInput" name="productPhoto")
+	span(id="status")
+	img(id="uploadedImage")
+	button(id="btnSubir") Subir
+	script(type='text/javascript', src='/scripts/upload.js')
+	script(type='text/javascript', src='/scripts/jquery.form.js')
 	script(type='text/javascript', src='/scripts/jquery.formatCurrency-1.4.0.min.js')
 	script(type='text/javascript').
 		$(document).ready(function(){

@@ -60,6 +60,17 @@ var UserDetail = new Schema({
     });
 var UserDetails = login_db.model('userInfo', UserDetail);
 
+// Con las instrucciones de abajo se puede crear un nuevo usuario
+/*var User = login_db.model('userInfo', UserDetail);
+var usr = new User({ username: 'admin', password: '123' });
+usr.save(function(err) {
+  if(err) {
+    console.log(err);
+  } else {
+    console.log('user: ' + usr.username + " saved.");
+  }
+});*/
+
 // Default view for login with passport
 app.get('/login', function(req, res) {
   res.render('login', { title: 'Login', url: req.query.url });
