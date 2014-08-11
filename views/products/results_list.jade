@@ -1,0 +1,13 @@
+extends ../layout
+
+block content
+  h1 Productos
+  p Lista de productos
+  .results-list.row
+    - each item in products
+      .product
+        a.name(href="/products/detail/#{item.id}")= item.name
+        label= "$"+item.price
+        label= item.state
+        .image
+  br

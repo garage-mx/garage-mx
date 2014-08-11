@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+  h1 Producto: #{product.name}
+  input(type='hidden', name='id' value='#{product.id}')
+  div
+    label Nombre: 
+    span= product.name
+  div
+    label Categoria: 
+    span= product.category
+  div
+    label Precio: 
+    span= product.price
+  - if(product.creationDate != undefined)
+    div
+      label Fecha de publicación: &nbsp;
+      span= product.creationDate.getDate() + "/" + (product.creationDate.getMonth()+1) + "/" + product.creationDate.getFullYear()

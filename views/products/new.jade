@@ -1,12 +1,26 @@
 extends ../layout
 
 block content
-  h1 Nuevo
-  form(action='/products/new', method='POST')
-    label Nombre
-    input(type='text', name='product[name]') 
-    label Categoria
-    input(type='text', name='product[category]')
-    label Precio
-    input(type='text', name='product[price]')
-    input(type='submit', value="Guardar")
+	h1 Nuevo
+	form.form-newProduct(action='/products/new', method='POST')
+		label Nombre
+		input(type='text', name='product[name]') 
+		label Categoria
+		input(type='text', name='product[category]')
+		label Precio
+		input(type='text', name='product[price]', class="currency")
+		input(type='submit', value="Guardar")
+
+	script(type='text/javascript', src='/scripts/jquery-1.11.1.min.js')
+	script(type='text/javascript', src='/scripts/jquery.formatCurrency-1.4.0.min.js')
+	script(type='text/javascript').
+		$(document).ready(function(){
+			$('.currency').on("blur", function(){
+				$(this).formatCurrency();
+			})
+			.on("keypress", function (e){if( e.which!=8 && e.which!=0 && (e.which<46 || e.which>57)){return false;}});
+			
+			$("form").on("submit",function(){
+				$('.currency').toNumber();
+			});
+		});

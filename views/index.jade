@@ -1,6 +1,13 @@
 extends layout
 
 block content
-  h1 Garage.mx
-  p Construyendo
-  a(href='/products') Seccion de productos
+	h3 Top 5 productos nuevos
+
+	.results-list.row
+		- each item in products
+			.product
+				a.name(href="/products/detail/#{item.id}")= item.name
+				label= "$"+item.price
+				label= item.state
+				.image
+	br

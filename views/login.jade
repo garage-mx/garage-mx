@@ -2,7 +2,7 @@ extends layout
 
 block content
   h1 Iniciar sesión
-  form(action='/login', method='POST', class="login-form")
+  form.form-login(action='/login', method='POST')
     label Usuario:
     input(type='text', name='username')
     br

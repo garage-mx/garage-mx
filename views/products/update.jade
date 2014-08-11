@@ -3,11 +3,11 @@ extends ../layout
 block content
   h1 Actualizar Producto
   form(action='/products/update', method='POST')
-    input(type='hidden', name='id' value='#{product.id}')
+    input(type='hidden', name='id', value='#{product.id}')
     label Nombre
-    input(type='text', name='product[name]' value='#{product.name}')
+    input(type='text', name='product[name]', value='#{product.name}')
     label Categoria
-    input(type='text', name='product[category]' value='#{product.category}')
+    input(type='text', name='product[category]', value='#{product.category}')
     label Precio
-    input(type='text', name='product[price]' value='#{product.price}')  
+    input(type='text', name='product[price]', value='#{product.price}')  
     input(type='submit', value="Guardar")
