@@ -27,8 +27,18 @@ login_db.connect('mongodb://localhost/test');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
+// Plugin for multi-part requests (like ajax file upload)
+var multer  = require('multer')
 
 var app = express();
+
+// multi-part uploader initialization
+app.use(multer({
+  dest: './uploads/',
+  rename: function (fieldname, filename) {
+    return filename.replace(/\W+/g, '-').toLowerCase() + Date.now()
+  }
+}))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

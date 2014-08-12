@@ -12,13 +12,11 @@ $(document).ready(function() {
         status('uploading the file ...');
  
         $(this).ajaxSubmit({                                                                                                                 
- 
             error: function(xhr) {
-		status('Error: ' + xhr.status);
+		      status('Error: ' + xhr.status);
             },
- 
             success: function(response) {
-		//TODO: We will fill this in later
+		      status('Success upload');
             }
 	});
  

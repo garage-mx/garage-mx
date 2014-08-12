@@ -111,7 +111,9 @@ router.get('/search', function(req, res){
 });
 
 router.post('/photos', function(req, res){
-  console.log(JSON.stringify(req.files));
+  if(req.files !== undefined){
+    res.json(true);
+  }
 });
 
 module.exports = router;

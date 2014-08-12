@@ -11,8 +11,8 @@ block content
 		input(type='text', name='product[price]', class="currency")
 		label Imagen
 		input(type='submit', value="Guardar")
-	form(id="uploadForm", enctype="multipart/form-data", action="/products/photos", method="post")
-		input(type="file" id="productPhotoInput" name="productPhoto")
+	form(id="uploadForm", enctype="multipart/form-data", action="/products/photos", method="POST")
+		input(type="file", id="productPhotoInput", name="productPhoto")
 	span(id="status")
 	img(id="uploadedImage")
 	button(id="btnSubir") Subir
