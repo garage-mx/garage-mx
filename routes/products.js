@@ -112,6 +112,22 @@ router.get('/search', function(req, res){
 
 router.post('/photos', function(req, res){
   if(req.files !== undefined){
+    var imagePath = "./"+req.files.productPhoto.path.replace(/\\/g, "/");
+    console.log(imagePath);
+    // Image Manipulation packages
+    var fs = require('fs');
+    var gm = require('gm');
+    if (fs.existsSync(imagePath)) {
+      gm(imagePath)
+        .resize(240, 240)
+        .noProfile()
+        .write('./uploads/IM'+req.files.productPhoto.name, function (err) 
+        {
+          if (!err) console.log('redimencionado');
+          else console.log(err);
+      });
+    }
+
     res.json(true);
   }
 });
