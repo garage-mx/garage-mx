@@ -118,10 +118,13 @@ router.post('/photos', function(req, res){
     var fs = require('fs');
     var gm = require('gm');
     if (fs.existsSync(imagePath)) {
+      //This code is for images AdaptativeResize
       gm(imagePath)
-        .resize(240, 240)
+        .resize(240, 240, "^")
+        .gravity("Center")
+        .extent(240, 240)
         .noProfile()
-        .write('./uploads/IM'+req.files.productPhoto.name, function (err) 
+        .write('./uploads/thumbnails/'+req.files.productPhoto.name, function (err) 
         {
           if (!err) console.log('redimencionado');
           else console.log(err);
