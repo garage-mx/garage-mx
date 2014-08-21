@@ -13,20 +13,20 @@ $(document).ready(function() {
  
         $(this).ajaxSubmit({                                                                                                                 
             error: function(xhr) {
-		      status('Error: ' + xhr.status);
+                status('Error: ' + xhr.status);
             },
             success: function(response) {
                 console.log(response);
-		      status('Transferencia satisfactoria');
+                $("#uploadedImage").attr("src",response.thumbPath);
+                status('Transferencia satisfactoria');
             }
-	});
- 
-	// Have to stop the form from submitting and causing                                                                                                       
-	// a page refresh - don't forget this                                                                                                                      
-	return false;
+        });
+        // Have to stop the form from submitting and causing                                                                                                       
+        // a page refresh - don't forget this                                                                                                                      
+        return false;
     });
  
     function status(message) {
-	   $('#status').text(message);
+        $('#status').text(message);
     }
 });

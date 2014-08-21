@@ -1,7 +1,78 @@
+html {
+  margin: 0;
+  padding: 0;
+}
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #575757;
+}
+header {
+  background: #f89e25;
+  width: 100%;
+  border-bottom: 1px solid #d57e0a;
+}
+header.row {
+  margin: 0;
+}
+header>div {
+  margin: 10px;
+}
+header a {
+  text-decoration: none !important;
+}
+header a h1 {
+  color: #fff;
+  margin: 0;
+}
+header .user-menu a {
+  color: #575757;
+}
+header form {
+  display: inline;
+}
+footer {
+  background: #151515;
+  color: #888;
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  cursor: pointer;
 }
 a {
-  color: #00b7ff;
+  color: #07c;
+}
+.form-login input {
+  display: block;
+}
+.form-login input[type=submit] {
+  min-width: 159px;
+}
+.form-newProduct input {
+  display: block;
+}
+.results-list.row {
+  margin: 0;
+}
+.results-list .product {
+  min-height: 80px;
+  border-bottom: 1px solid;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+}
+.results-list .product .name {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+}
+.results-list .product .image {
+  border: 1px solid;
+  width: 200px;
+  height: 150px;
+}
+.results-list .product .price {
+  color: #900;
 }

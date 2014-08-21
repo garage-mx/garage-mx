@@ -14,8 +14,10 @@ block content
 	form(id="uploadForm", enctype="multipart/form-data", action="/products/photos", method="POST")
 		input(type="file", id="productPhotoInput", name="productPhoto")
 	span(id="status")
-	img(id="uploadedImage")
 	button(id="btnSubir") Subir
+	br
+	img(id="uploadedImage")
+	br
 	script(type='text/javascript', src='/scripts/upload.js')
 	script(type='text/javascript', src='/scripts/jquery.form.js')
 	script(type='text/javascript', src='/scripts/jquery.formatCurrency-1.4.0.min.js')
