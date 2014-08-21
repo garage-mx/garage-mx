@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    status('Choose a file :)');
+    status('Seleccione una imagen');
  
     // Check to see when a user has selected a file                                                                                                                
     $("#btnSubir").on("click",function() {
@@ -9,14 +9,14 @@ $(document).ready(function() {
     });
  
     $('#uploadForm').submit(function() {
-        status('uploading the file ...');
+        status('Transfiriendo archivo...');
  
         $(this).ajaxSubmit({                                                                                                                 
             error: function(xhr) {
 		      status('Error: ' + xhr.status);
             },
             success: function(response) {
-		      status('Success upload');
+		      status('Transferencia satisfactoria');
             }
 	});
  
