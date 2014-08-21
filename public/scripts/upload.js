@@ -8,7 +8,7 @@ $(document).ready(function() {
         }
     });
  
-    $('#uploadForm').submit(function() {
+    $('#uploadForm').on("submit", function() {
         status('Transfiriendo archivo...');
  
         $(this).ajaxSubmit({                                                                                                                 
@@ -16,6 +16,7 @@ $(document).ready(function() {
 		      status('Error: ' + xhr.status);
             },
             success: function(response) {
+                console.log(response);
 		      status('Transferencia satisfactoria');
             }
 	});
@@ -26,6 +27,6 @@ $(document).ready(function() {
     });
  
     function status(message) {
-	$('#status').text(message);
+	   $('#status').text(message);
     }
 });
