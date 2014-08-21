@@ -117,6 +117,7 @@ router.post('/photos', function(req, res){
     // Image Manipulation packages
     var fs = require('fs');
     var gm = require('gm');
+    var thumbPath = "";
     if (fs.existsSync(imagePath)) {
       //This code is for images AdaptativeResize
       gm(imagePath)
@@ -124,14 +125,13 @@ router.post('/photos', function(req, res){
         .gravity("Center")
         .extent(240, 240)
         .noProfile()
-        .write('./uploads/thumbnails/'+req.files.productPhoto.name, function (err) 
+        .write('./public/thumbnails/'+req.files.productPhoto.name, function (err) 
         {
-          if (!err) console.log('redimencionado');
-          else console.log(err);
+          thumbPath = req.protocol + '://' + req.get('host') + "/thumbnails/" + req.files.productPhoto.name;
+          if(!err) res.json(true, {thumbPath: thumbPath, error: "" });
+          else res.json(false, {thumbPath: "", error: err });
       });
     }
-
-    res.json(true);
   }
 });
 

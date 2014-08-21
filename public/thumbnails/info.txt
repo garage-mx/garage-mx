@@ -1,0 +1,1 @@
+This folder keeps the thumbnails images that we resized in the application
