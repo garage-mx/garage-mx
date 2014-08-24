@@ -1,7 +1,27 @@
 (function(){
 	var app = angular.module("uploadFiles",["angularFileUpload"])
 	.controller('UploaderController', function($scope, FileUploader) {
-        $scope.uploader = new FileUploader({url: '/products/photos'});
+        var uploader = $scope.uploader = new FileUploader({url: '/products/photos'});
+		
+		// FILTERS
+        uploader.filters.push({
+            name: 'customFilter',
+            fn: function(item /*{File|FileLikeObject}*/, options) {
+                return this.queue.length < 10;
+            }
+        });
+
+        uploader.onSuccessItem = function(fileItem, response, status, headers) {
+            fileItem.imageUrl = response.thumbPath;
+            //console.info('onSuccessItem', fileItem, response, status, headers);
+        };
+
+        var controller = $scope.controller = {
+            isImage: function(item) {
+                var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+            }
+        };
     });
 	
 	var MainController = function($scope, $http){
