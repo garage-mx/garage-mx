@@ -1,6 +1,7 @@
 (function(){
-	var app = angular.module("uploadFiles",["angularFileUpload"])
-	.controller('UploaderController', function($scope, FileUploader) {
+	var app = angular.module("productsApp",["angularFileUpload", "textAngular"]);
+
+	app.controller("UploaderController", ["$scope", "FileUploader", function($scope, FileUploader) {
         var uploader = $scope.uploader = new FileUploader({url: '/products/photos'});
 		
 		// FILTERS
@@ -22,9 +23,9 @@
                 return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
             }
         };
-    });
+    }]);
 	
-	var MainController = function($scope, $http){
+	var FormController = function($scope, $http){
 		$scope.statusMsg = "Seleccione una imagen";
 
 		var uploadSuccess =  function(data, status, headers, config){
@@ -37,6 +38,6 @@
 		};
 
 	};
+	app.controller("FormController", FormController);
 
-	app.controller("MainController", MainController)
 }());

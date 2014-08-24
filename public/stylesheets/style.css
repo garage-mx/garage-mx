@@ -76,3 +76,6 @@ a {
 .results-list .product .price {
   color: #900;
 }
+.displayNone {
+  display: none;
+}

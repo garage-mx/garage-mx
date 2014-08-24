@@ -2,21 +2,28 @@ extends ../layout
 
 block content
 	link(rel='stylesheet', href='/stylesheets/uploader.css')
+	link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css')
+	link(rel='stylesheet', href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css')
 	h1 Nuevo
-	form.form-newProduct(action='/products/new', method='POST', enctype="multipart/form-data")
-		label Nombre
-		input(type='text', name='product[name]') 
-		label Categoria
-		input(type='text', name='product[category]')
-		label Precio
-		input(type='text', name='product[price]', class="currency")
-		label Imagen
-		input(type='submit', value="Guardar")
-	div(ng-app="uploadFiles")
+	div(ng-app="productsApp")
+		div(ng-controller="FormController")
+			form.form-newProduct(action='/products/new', method='POST', enctype="multipart/form-data")
+				span(id="status")
+					{{ statusMsg }}
+				label Nombre
+				input(type='text', name='product[name]') 
+				label Categoria
+				input(type='text', name='product[category]')
+				label Precio
+				input(type='text', name='product[price]', class="currency")
+				label Descripción
+				br
+				div(text-angular ng-model="htmlVariable")
+				textarea(name='product[description]' class="displayNone") {{htmlVariable}}
+				input(type='submit', value="Guardar")
 		div(ng-controller="UploaderController")
+			label Imagen
 			input(type="file" name="productPhoto" nv-file-select uploader="uploader")
-			span(id="status")
-				{{ statusMsg }}
 			ul
 			li(ng-repeat="item in uploader.queue")
 				{{ item.file.name }}
@@ -33,6 +40,8 @@ block content
 			img(id="uploadedImage" ng-src="{{imageUrl}}")
 	br
 	script(type='text/javascript', src='/scripts/angular-file-upload.min.js')
+	script(type='text/javascript', src='//cdnjs.cloudflare.com/ajax/libs/textAngular/1.2.2/textAngular-sanitize.min.js')
+	script(type='text/javascript', src='//cdnjs.cloudflare.com/ajax/libs/textAngular/1.2.2/textAngular.min.js')
 	script(type='text/javascript', src='/scripts/jquery.formatCurrency-1.4.0.min.js')
 	script(type='text/javascript').
 		$(document).ready(function(){
