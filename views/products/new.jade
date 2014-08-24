@@ -12,14 +12,19 @@ block content
 		label Imagen
 		input(type='submit', value="Guardar")
 	div(ng-app="uploadFiles")
-		div(ng-controller="MainController")
-			input(type="file" name="productPhoto" ng-file-select="onFileSelect($files)")
+		div(ng-controller="UploaderController")
+			input(type="file" name="productPhoto" nv-file-select uploader="uploader")
 			span(id="status")
 				{{ statusMsg }}
-			button(id="btnSubir") Subir
+			ul
+			li(ng-repeat="item in uploader.queue")
+				{{ item.file.name }} 
+				button(ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess") Subir
+				button(ng-click="item.cancel()" ng-disabled="!item.isUploading") Canelar
+				button(ng-click="item.remove()") Remover
 			br
 			img(id="uploadedImage" ng-src="{{imageUrl}}")
-			br
+	br
 	script(type='text/javascript', src='/scripts/angular-file-upload.min.js')
 	script(type='text/javascript', src='/scripts/jquery.formatCurrency-1.4.0.min.js')
 	script(type='text/javascript').
