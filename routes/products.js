@@ -112,7 +112,7 @@ router.get('/search', function(req, res){
 
 router.post('/photos', function(req, res){
   if(req.files !== undefined){
-    var imagePath = "./"+req.files.productPhoto.path.replace(/\\/g, "/");
+    var imagePath = "./"+req.files.file.path.replace(/\\/g, "/");
     console.log(imagePath);
     // Image Manipulation packages
     var fs = require('fs');
@@ -125,9 +125,9 @@ router.post('/photos', function(req, res){
         .gravity("Center")
         .extent(240, 240)
         .noProfile()
-        .write('./public/thumbnails/'+req.files.productPhoto.name, function (err) 
+        .write('./public/thumbnails/'+req.files.file.name, function (err) 
         {
-          thumbPath = req.protocol + '://' + req.get('host') + "/thumbnails/" + req.files.productPhoto.name;
+          thumbPath = req.protocol + '://' + req.get('host') + "/thumbnails/" + req.files.file.name;
           if(!err) res.json(true, {thumbPath: thumbPath, error: "" });
           else res.json(false, {thumbPath: "", error: err });
       });

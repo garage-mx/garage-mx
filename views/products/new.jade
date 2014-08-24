@@ -11,15 +11,16 @@ block content
 		input(type='text', name='product[price]', class="currency")
 		label Imagen
 		input(type='submit', value="Guardar")
-	form(id="uploadForm", enctype="multipart/form-data", action="/products/photos", method="POST")
-		input(type="file", id="productPhotoInput", name="productPhoto")
-	span(id="status")
-	button(id="btnSubir") Subir
-	br
-	img(id="uploadedImage")
-	br
-	script(type='text/javascript', src='/scripts/upload.js')
-	script(type='text/javascript', src='/scripts/jquery.form.js')
+	div(ng-app="uploadFiles")
+		div(ng-controller="MainController")
+			input(type="file" name="productPhoto" ng-file-select="onFileSelect($files)")
+			span(id="status")
+				{{ statusMsg }}
+			button(id="btnSubir") Subir
+			br
+			img(id="uploadedImage" ng-src="{{imageUrl}}")
+			br
+	script(type='text/javascript', src='/scripts/angular-file-upload.min.js')
 	script(type='text/javascript', src='/scripts/jquery.formatCurrency-1.4.0.min.js')
 	script(type='text/javascript').
 		$(document).ready(function(){
