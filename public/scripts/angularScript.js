@@ -1,5 +1,5 @@
 (function(){
-	var app = angular.module("productsApp",["angularFileUpload", "textAngular"]);
+	var app = angular.module("productsApp",["angularFileUpload", "textAngular", "ng-currency"]);
 
 	app.controller("UploaderController", ["$scope", "FileUploader", function($scope, FileUploader) {
         var uploader = $scope.uploader = new FileUploader({url: '/products/photos'});
@@ -26,7 +26,14 @@
     }]);
 	
 	var FormController = function($scope, $http){
+
+        $scope.testModel = 0;
 		$scope.statusMsg = "Seleccione una imagen";
+
+        var unFormat = function($scope){
+            $scope.testModel = $scope.testModel.replace(/$/g, "-");
+            return false;
+        };
 
 		var uploadSuccess =  function(data, status, headers, config){
 			// file is uploaded successfully

@@ -15,7 +15,7 @@ block content
 				label Categoria
 				input(type='text', name='product[category]')
 				label Precio
-				input(type='text', name='product[price]', class="currency")
+				input(type='text', name='product[price]', class="currency", ng-model="testModel", ng-currency)
 				label Descripción
 				br
 				div(text-angular ng-model="htmlVariable")
@@ -42,14 +42,10 @@ block content
 	script(type='text/javascript', src='/scripts/angular-file-upload.min.js')
 	script(type='text/javascript', src='//cdnjs.cloudflare.com/ajax/libs/textAngular/1.2.2/textAngular-sanitize.min.js')
 	script(type='text/javascript', src='//cdnjs.cloudflare.com/ajax/libs/textAngular/1.2.2/textAngular.min.js')
+	script(type='text/javascript', src="//aguirrel.github.io/ng-currency/dist/ng-currency.js")
 	script(type='text/javascript', src='/scripts/jquery.formatCurrency-1.4.0.min.js')
 	script(type='text/javascript').
 		$(document).ready(function(){
-			$('.currency').on("blur", function(){
-				$(this).formatCurrency();
-			})
-			.on("keypress", function (e){if( e.which!=8 && e.which!=0 && (e.which<46 || e.which>57)){return false;}});
-			
 			$("form").on("submit",function(){
 				$('.currency').toNumber();
 			});
