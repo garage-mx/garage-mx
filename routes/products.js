@@ -36,7 +36,7 @@ router.post('/new', authFilter, function(req, res) {
   var product =  new Product(req.param('product'));
   product.userId = req.user._id;
   product.creationDate = new Date();
-  console.log(product.price);
+  console.log(product.category);
   // Con esta funcion guardamos el producto en el modelo Product
   // This function save the prouducto object in Product model
   product.save(function (err, product) {
