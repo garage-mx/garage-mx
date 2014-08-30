@@ -5,16 +5,16 @@ block content
   link(rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css")
   h1 Productos
   p Lista de productos
-  div(ng-app="main" ng-controller="DemoCtrl")
+  div(ng-app="mainTables" ng-controller="TablesCtrl")
     {{statusMsg}}
-    table(ng-table="tableParams" class="table")
+    table(ng-table="tableParams" class="table" show-filter="true")
       tr(ng-repeat="item in $data")
-        td(data-title="'Nombre'" sortable="'name'")
+        td(data-title="'Nombre'" sortable="'name'" filter="{ 'name': 'text' }")
           {{item.name}}
         td(data-title="'Edicion'")
-          a(ng-href="/products/update/{{item.id}}") Editar
+          a(ng-href="/products/update/{{item._id}}") Editar
         td(data-title="'Borrado'")
-          a(ng-href="/products/delete/{{item.id}}") Borrar
+          a(ng-href="/products/delete/{{item._id}}") Borrar
   br
   a(href='/products/new') Nuevo producto
   script(src="http://bazalt-cms.com/assets/ng-table/0.3.1/ng-table.js")

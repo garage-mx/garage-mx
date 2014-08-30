@@ -1,7 +1,7 @@
 (function(){
-	var app = angular.module("productsApp",["angularFileUpload", "textAngular", "ng-currency", "ngTagsInput"]);
 
-	app.controller("UploaderController", ["$scope", "FileUploader", function($scope, FileUploader) {
+	var productsApp = angular.module("productsApp",["angularFileUpload", "textAngular", "ng-currency", "ngTagsInput"]);
+	productsApp.controller("UploaderController", ["$scope", "FileUploader", function($scope, FileUploader) {
         var uploader = $scope.uploader = new FileUploader({url: '/products/photos'});
 		
 		// FILTERS
@@ -14,7 +14,6 @@
 
         uploader.onSuccessItem = function(fileItem, response, status, headers) {
             fileItem.imageUrl = response.thumbPath;
-            //console.info('onSuccessItem', fileItem, response, status, headers);
         };
 
         var controller = $scope.controller = {
@@ -40,38 +39,43 @@
 		};
 
 	};
-	app.controller("FormController", FormController);
+	productsApp.controller("FormController", FormController);
+
+
+    // Data Table
+    var appMainTables = angular.module('mainTables', ['ngTable']).
+    controller('TablesCtrl', ['$scope', '$filter', '$http', 'ngTableParams', function($scope, $filter, $http, ngTableParams) {
+
+        var promiseFailed = function(data, status, headers, config){
+            $scope.statusMsg = "Error: " + status;
+        };
+
+        $scope.tableParams = new ngTableParams({
+            page: 1,            // show first page
+            count: 10,          // count per page
+            sorting: {
+                name: 'asc'     // initial sorting
+            }
+        }, {
+            total: 0, // length of data is updated by params.total();
+            getData: function($defer, params) {
+                var promiseSuccess =  function(data, status, headers, config){
+                    $scope.statusMsg = "Datos obtenidos satisfactoriamente";
+                    // update table params
+                    params.total(data.data.length);
+                    // use build-in angular filter
+                    var orderedData = params.filter() ? $filter('filter')(data.data, params.filter()) : data.data; // Order by input text filter
+                    //var orderedData = params.sorting() ? $filter('orderBy')(data.data, params.orderBy()) : data.data; // Filter Sort 
+                    $scope.items = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+                    $defer.resolve($scope.items);
+
+                };
+                // ajax request to data source Path
+                $http.get("/products/list_JSON").then(promiseSuccess, promiseFailed);
+            }
+        });
+    }]);
 
 }());
 
 
-// Data Table
-var app = angular.module('main', ['ngTable']).
-controller('DemoCtrl', function($scope, $filter, $http, ngTableParams) {
-
-    var promiseFailed = function(data, status, headers, config){
-        $scope.statusMsg = "Error: " + status;
-    };
-
-    $scope.tableParams = new ngTableParams({
-        page: 1,            // show first page
-        count: 10,          // count per page
-        sorting: {
-            name: 'asc'     // initial sorting
-        }
-    }, {
-        total: 0, // length of data
-        getData: function($defer, params) {
-            var promiseSuccess =  function(data, status, headers, config){
-                $scope.statusMsg = "Datos obtenidos satisfactoriamente";
-                // update table params
-                params.total(data.data.length);
-                // use build-in angular filter
-                var orderedData = params.sorting() ? $filter('orderBy')(data.data, params.orderBy()) : data.data; 
-                $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-            };
-            // ajax request to api
-            $http.get("/products/list_JSON").then(promiseSuccess, promiseFailed);
-        }
-    });
-});
