@@ -6,7 +6,12 @@ block content
   h1 Productos
   p Lista de productos
   div(ng-app="mainTables" ng-controller="TablesCtrl")
-    {{statusMsg}}
+    span Fuente de datos: 
+    input(type="text" ng-init="dataSource = '/products/list_JSON'" ng-model="dataSource" )
+    br
+    br
+    label Estatus: 
+    span {{statusMsg}}
     table(ng-table="tableParams" class="table" show-filter="true")
       tr(ng-repeat="item in $data")
         td(data-title="'Nombre'" sortable="'name'" filter="{ 'name': 'text' }")

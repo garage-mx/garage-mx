@@ -45,10 +45,36 @@
     // Data Table
     var appMainTables = angular.module('mainTables', ['ngTable']).
     controller('TablesCtrl', ['$scope', '$filter', '$http', 'ngTableParams', function($scope, $filter, $http, ngTableParams) {
+        var storedData = new Array();
 
         var promiseFailed = function(data, status, headers, config){
             $scope.statusMsg = "Error: " + status;
         };
+
+        var getData = function($defer, params) {
+            if(storedData.length === 0){
+                var promiseSuccess =  function(data, status, headers, config){
+                    storedData = data.data; 
+                    $scope.statusMsg = "Datos obtenidos satisfactoriamente";
+                    // use build-in angular filter
+                    var filteredData = params.filter() ? $filter('filter')(data.data, params.filter()) : data.data;
+                    var orderedData = params.sorting() ? $filter('orderBy')(filteredData, params.orderBy()) : data.data; 
+                    // update table params
+                    params.total(orderedData.length);
+                    $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                    console.log(data.data);
+                };
+                // ajax request to data source Path
+                $http.get($scope.dataSource).then(promiseSuccess, promiseFailed);
+            }
+            else {
+                $scope.statusMsg = "Consultando datos almacenados localmente";
+                var filteredData = params.filter() ? $filter('filter')(storedData, params.filter()) : storedData;
+                var orderedData = params.sorting() ? $filter('orderBy')(filteredData, params.orderBy()) : storedData; 
+                params.total(orderedData.length);
+                $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+            }
+        }
 
         $scope.tableParams = new ngTableParams({
             page: 1,            // show first page
@@ -58,22 +84,7 @@
             }
         }, {
             total: 0, // length of data is updated by params.total();
-            getData: function($defer, params) {
-                var promiseSuccess =  function(data, status, headers, config){
-                    $scope.statusMsg = "Datos obtenidos satisfactoriamente";
-                    // use build-in angular filter
-                    var filteredData = params.filter() ? $filter('filter')(data.data, params.filter()) : data.data;
-                    var orderedData = params.sorting() ? $filter('orderBy')(filteredData, params.orderBy()) : data.data; 
-                    //var orderedData = params.filter() ? $filter('filter')(data.data, params.filter()) : data.data; // Order by input text filter
-                    //var orderedData = params.sorting() ? $filter('orderBy')(data.data, params.orderBy()) : data.data; // Filter Sort 
-                    // update table params
-                    params.total(orderedData.length);
-                    $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-
-                };
-                // ajax request to data source Path
-                $http.get("/products/list_JSON").then(promiseSuccess, promiseFailed);
-            }
+            getData: getData
         });
     }]);
 
