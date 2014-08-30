@@ -43,3 +43,35 @@
 	app.controller("FormController", FormController);
 
 }());
+
+
+// Data Table
+var app = angular.module('main', ['ngTable']).
+controller('DemoCtrl', function($scope, $filter, $http, ngTableParams) {
+
+    var promiseFailed = function(data, status, headers, config){
+        $scope.statusMsg = "Error: " + status;
+    };
+
+    $scope.tableParams = new ngTableParams({
+        page: 1,            // show first page
+        count: 10,          // count per page
+        sorting: {
+            name: 'asc'     // initial sorting
+        }
+    }, {
+        total: 0, // length of data
+        getData: function($defer, params) {
+            var promiseSuccess =  function(data, status, headers, config){
+                $scope.statusMsg = "Datos obtenidos satisfactoriamente";
+                // update table params
+                params.total(data.data.length);
+                // use build-in angular filter
+                var orderedData = params.sorting() ? $filter('orderBy')(data.data, params.orderBy()) : data.data; 
+                $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+            };
+            // ajax request to api
+            $http.get("/products/list_JSON").then(promiseSuccess, promiseFailed);
+        }
+    });
+});

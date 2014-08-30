@@ -60,6 +60,15 @@ router.get('/', authFilter,function(req, res){
   });
 });
 
+router.get('/list_JSON', authFilter, function(req, res){
+  // Esto se trae todos los registros del modelo Product
+  // This function is like a select query that show all the productos of Product model 
+  Product.find(function (err, productos) {
+    if (err) return console.error(err);
+    return res.json(productos);
+  });
+});
+
 router.get('/update/:id', authFilter, function(req, res){
   // Busca el producto con id enviado por el usuario y obtiene el contenido
   // Search the product envoy by user and get the respective object 
