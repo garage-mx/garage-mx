@@ -61,13 +61,14 @@
             getData: function($defer, params) {
                 var promiseSuccess =  function(data, status, headers, config){
                     $scope.statusMsg = "Datos obtenidos satisfactoriamente";
-                    // update table params
-                    params.total(data.data.length);
                     // use build-in angular filter
-                    var orderedData = params.filter() ? $filter('filter')(data.data, params.filter()) : data.data; // Order by input text filter
+                    var filteredData = params.filter() ? $filter('filter')(data.data, params.filter()) : data.data;
+                    var orderedData = params.sorting() ? $filter('orderBy')(filteredData, params.orderBy()) : data.data; 
+                    //var orderedData = params.filter() ? $filter('filter')(data.data, params.filter()) : data.data; // Order by input text filter
                     //var orderedData = params.sorting() ? $filter('orderBy')(data.data, params.orderBy()) : data.data; // Filter Sort 
-                    $scope.items = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
-                    $defer.resolve($scope.items);
+                    // update table params
+                    params.total(orderedData.length);
+                    $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
 
                 };
                 // ajax request to data source Path
