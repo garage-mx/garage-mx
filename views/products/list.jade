@@ -5,21 +5,50 @@ block content
   link(rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css")
   h1 Productos
   p Lista de productos
-  div(ng-app="mainTables" ng-controller="TablesCtrl")
-    span Fuente de datos: 
-    input(type="text" ng-init="dataSource = '/products/list_JSON'" ng-model="dataSource" )
+  div(ng-app="ProductsListApp")
+    div(ng-controller="TablesCtrl")
+      span Fuente de datos: 
+      input(type="text" ng-init="dataSource = '/products/list_JSON'" ng-model="dataSource" )
+      br
+      br
+      label Estatus: 
+      span {{statusMsg}}
+      table(ng-table="tableParams" class="table" show-filter="true")
+        tr(ng-repeat="item in $data" ng-controller="ModalDemoCtrl")
+          td(data-title="'Nombre'" sortable="'name'" filter="{ 'name': 'text' }")
+            {{item.name}}
+          td(data-title="'Edicion'")
+            a(href="" ng-click="modal('/products/update/',item._id)") Actualizar
+          td(data-title="'Borrado'")
+            a(ng-href="/products/delete/{{item._id}}") Borrar
     br
-    br
-    label Estatus: 
-    span {{statusMsg}}
-    table(ng-table="tableParams" class="table" show-filter="true")
-      tr(ng-repeat="item in $data")
-        td(data-title="'Nombre'" sortable="'name'" filter="{ 'name': 'text' }")
-          {{item.name}}
-        td(data-title="'Edicion'")
-          a(ng-href="/products/update/{{item._id}}") Editar
-        td(data-title="'Borrado'")
-          a(ng-href="/products/delete/{{item._id}}") Borrar
+    a(href='/products/new') Nuevo producto
+
+    div(ng-controller="ModalDemoCtrl")
+      script(type="text/ng-template" id="myModalContent.html").
+        <div class="modal-header">
+            <h3 class="modal-title">I'm a modal!</h3>
+        </div>
+        <div class="modal-body">
+            <ul>
+              <li ng-repeat="item in items">
+                  <a ng-click="selected.item = item">{{ item }}</a>
+              </li>
+            </ul>
+            {{ selected.item }} <br />
+            
+            ¿Desea eliminar <b>{{ updatePath }}</b>?
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+
+      button(class="btn btn-default" ng-click="open()") Open me!
+      button(class="btn btn-default" ng-click="open('lg')") Large modal
+      button(class="btn btn-default" ng-click="open('sm')") Small modal
+      div(ng-show="selected") Selection from a modal: {{ selected }}
   br
-  a(href='/products/new') Nuevo producto
+  br
   script(src="http://bazalt-cms.com/assets/ng-table/0.3.1/ng-table.js")
+  script(src="/scripts/ui-bootstrap-tpls-0.11.0.min.js")

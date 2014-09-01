@@ -86,7 +86,77 @@
             total: 0, // length of data is updated by params.total();
             getData: getData
         });
+
     }]);
+
+    //Modals
+    var myModalsApp = angular.module('myModule', ['ui.bootstrap']);
+    myModalsApp.controller('ModalDemoCtrl', ['$scope', '$modal', '$log', function($scope, $modal, $log) {
+        $scope.items = ['item1', 'item2', 'item3'];
+
+        $scope.open = function (size) {
+            var modalInstance = $modal.open({
+              templateUrl: 'myModalContent.html',
+              controller: ModalInstanceCtrl, // llamada al funcion con ese nombre
+              size: size,
+              resolve: {
+                items: function () {
+                  return $scope.items;
+                }
+              }
+            });
+            modalInstance.result.then(function (selectedItem) {
+              $scope.selected = selectedItem;
+            }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+            });
+        };
+
+        $scope.modal = function (url, itemID) {
+            $scope.updatePath = url + itemID + "";
+
+            var modalInstance = $modal.open({
+              templateUrl: 'myModalContent.html',
+              controller: ModalInstanceCtrl, // Call to the function with the same name outside the controller
+              size: "lg",
+              resolve: {
+                updatePath: function(){ // If you want to send an other parameter you should add it to ModalInstanceCtrl function
+                    console.log($scope.updatePath);
+                    return $scope.updatePath;
+                },
+                items: function () {
+                    return $scope.items;
+                }
+              }
+            });
+            modalInstance.result.then(function (selectedItem) {
+              $scope.selected = selectedItem;
+            }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+            });
+        };
+
+
+    }]);
+
+    var ModalInstanceCtrl = function ($scope, $modalInstance, items, updatePath) {
+      $scope.items = items;
+      $scope.updatePath = updatePath;
+      $scope.selected = {
+        item: $scope.items[0]
+      };
+
+      $scope.ok = function () {
+        $modalInstance.close($scope.selected.item);
+      };
+
+      $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+      };
+    };
+
+    angular.module("ProductsListApp",["mainTables","myModule"]);
+    
 
 }());
 
