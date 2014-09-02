@@ -157,6 +157,24 @@
 
     angular.module("ProductsListApp",["mainTables","myModule"]);
     
+    // Prueba con select en cascada
+    var cascadeApp = angular.module('cascadeModule', []);
+    var cascadeController = function($scope, $http){
+        $http.get("/products/categorias_JSON").then(function(response){ 
+            $scope.categorias = response.data;
+        },failure);
+        
+        $scope.getProductos = function(id){
+            $http.get("/products/productos_JSON?id_categoria="+id).then(success,failure);
+        }
+        var success = function(response){
+            $scope.productos = response.data;
+        }
+        var failure = function(error){
+            console.log(error);
+        }
+    }
+    cascadeApp.controller("cascadeController", cascadeController);
 
 }());
 

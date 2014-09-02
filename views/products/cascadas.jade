@@ -1,0 +1,11 @@
+extends ../layout
+
+block content
+	div(ng-app="cascadeModule" ng-controller="cascadeController")
+		select(ng-model="categoria" ng-change="getProductos(categoria)")
+			option(value="") -- Seleccione una categoria --
+			option(ng-repeat="item in categorias" value="{{item.id}}") {{item.categoria}}
+
+		select(ng-model="producto" ng-disabled="!categoria")
+			option(value="") -- Seleccione un producto --
+			option(ng-repeat="item in productos" value="{{item.id}}") {{item.nombre}}

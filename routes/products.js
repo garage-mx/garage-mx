@@ -145,4 +145,40 @@ router.post('/photos', function(req, res){
   }
 });
 
+// Pruebas con dropdown
+router.get('/categorias_JSON', function(req, res){
+  var categorias = [
+    {id:1, categoria:"electronica"},
+    {id:2, categoria:"hogar"},
+    {id:3, categoria:"computo"},
+    {id:4, categoria:"musica"}
+  ];
+  return res.json(categorias);
+});
+
+router.get('/productos_JSON', function(req, res){
+  var id_categoria = req.param('id_categoria');
+  var productos = [];
+
+  if(id_categoria == 1)
+  {
+    productos = [{id:1, nombre:"audifonos"},{id:2,nombre:"lavadora"},{id:3,nombre:"refrigerador"}];
+  }
+  else if(id_categoria == 2){
+    productos = [{id:4,nombre:"licuadora"},{id:5,nombre:"picalica"}];
+  }
+  else if(id_categoria == 3){
+    productos = [{id:6,nombre:"monitor"},{id:7,nombre:"SSD"},{id:8, nombre:"regulador"}];
+  }
+  else if(id_categoria == 4){
+    productos = [{id:9,nombre:"guitarra"},{id:10,nombre:"organo"}];
+  }
+
+  return res.json(productos);
+});
+
+router.get('/cascadas', function(req, res){
+  res.render('products/cascadas', { title: 'Prueba con angular' });
+});
+
 module.exports = router;
