@@ -69,12 +69,22 @@
             }
             else {
                 $scope.statusMsg = "Consultando datos almacenados localmente";
-                var filteredData = params.filter() ? $filter('filter')(storedData, params.filter()) : storedData;
+                if($scope.keysFilter!==undefined && $scope.keysFilter!=""){
+                    var filteredData = params.filter() ? $filter('filter')(storedData, $scope.keysFilter) : storedData;
+                    //var filteredData = params.filter() ? $filter('filter')(storedData, { name:"Aud", category:"elec"}) : storedData;
+                }
+                else{
+                    var filteredData = params.filter() ? $filter('filter')(storedData, params.filter()) : storedData;
+                }
                 var orderedData = params.sorting() ? $filter('orderBy')(filteredData, params.orderBy()) : storedData; 
                 params.total(orderedData.length);
                 $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
             }
-        }
+        };
+
+        $scope.$watch("keysFilter", function(newvalue, oldvalue) {
+            $scope.tableParams.reload();
+        });
 
         $scope.tableParams = new ngTableParams({
             page: 1,            // show first page

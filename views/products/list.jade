@@ -7,6 +7,9 @@ block content
   p Lista de productos
   div(ng-app="ProductsListApp")
     div(ng-controller="TablesCtrl")
+      span Busqueda:
+      input(type="text" ng-model="keysFilter")
+      br
       span Fuente de datos: 
       input(type="text" ng-init="dataSource = '/products/list_JSON'" ng-model="dataSource" )
       br
@@ -17,6 +20,8 @@ block content
         tr(ng-repeat="item in $data" ng-controller="ModalDemoCtrl")
           td(data-title="'Nombre'" sortable="'name'" filter="{ 'name': 'text' }")
             {{item.name}}
+          td(data-title="'Categoria'" sortable="'category'" filter="{ 'category': 'text' }")
+            {{item.category}}
           td(data-title="'Edicion'")
             a(href="" ng-click="modal('/products/update/',item._id)") Actualizar
           td(data-title="'Borrado'")
