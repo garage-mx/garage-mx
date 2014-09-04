@@ -181,4 +181,8 @@ router.get('/cascadas', function(req, res){
   res.render('products/cascadas', { title: 'Prueba con angular' });
 });
 
+router.get('/ModalTemplate', function(req, res){
+  res.render('products/ModalTemplate', { title: 'Template'})
+});
+
 module.exports = router;

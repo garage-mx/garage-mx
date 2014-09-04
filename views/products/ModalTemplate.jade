@@ -1,0 +1,10 @@
+div(class="modal-header")
+    h3(class="modal-title") Soy una pinchi modal!
+div(class="modal-body")
+    ul
+        li(ng-repeat="item in items")
+            a(ng-click="selected.item = item") {{ item }}
+    span ¿Desea eliminar <b> {{ updatePath }} </b>
+div(class="modal-footer")
+    button(class="btn btn-primary" ng-click="ok()") OK
+    button(class="btn btn-warning" ng-click="cancel()") Cancel

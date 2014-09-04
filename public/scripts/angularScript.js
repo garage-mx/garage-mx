@@ -116,7 +116,7 @@
             $scope.updatePath = url + itemID + "";
 
             var modalInstance = $modal.open({
-              templateUrl: 'myModalContent.html',
+              templateUrl: '/products/ModalTemplate',
               controller: ModalInstanceCtrl, // Call to the function with the same name outside the controller
               size: "lg",
               resolve: {
