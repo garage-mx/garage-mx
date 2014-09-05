@@ -5,6 +5,10 @@ div(class="modal-body")
         li(ng-repeat="item in items")
             a(ng-click="selected.item = item") {{ item }}
     span ¿Desea eliminar <b> {{ updatePath }} </b>
+    span {{ producto }}
+    ul
+      li(ng-repeat="valor in producto") 
+        {{valor.name}}
 div(class="modal-footer")
     button(class="btn btn-primary" ng-click="ok()") OK
     button(class="btn btn-warning" ng-click="cancel()") Cancel

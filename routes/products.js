@@ -185,4 +185,12 @@ router.get('/ModalTemplate', function(req, res){
   res.render('products/ModalTemplate', { title: 'Template'})
 });
 
+router.get('/producto_JSON/:id', function(req, res){
+  Product.findById(req.param('id'), function (err, producto) {
+    if (err) return console.error(err);
+    console.log(producto);
+    return res.json([producto]);
+  });
+});
+
 module.exports = router;

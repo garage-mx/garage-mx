@@ -89,9 +89,11 @@
 
     }]);
 
+
+
     //Modals
     var myModalsApp = angular.module('myModule', ['ui.bootstrap']);
-    myModalsApp.controller('ModalDemoCtrl', ['$scope', '$modal', '$log', function($scope, $modal, $log) {
+    myModalsApp.controller('ModalDemoCtrl', ['$scope', '$modal', '$log','$http', function($scope, $modal, $log, $http) {
         $scope.items = ['item1', 'item2', 'item3'];
 
         $scope.open = function (size) {
@@ -114,34 +116,39 @@
 
         $scope.modal = function (url, itemID) {
             $scope.updatePath = url + itemID + "";
-
-            var modalInstance = $modal.open({
-              templateUrl: '/products/ModalTemplate',
-              controller: ModalInstanceCtrl, // Call to the function with the same name outside the controller
-              size: "lg",
-              resolve: {
-                updatePath: function(){ // If you want to send an other parameter you should add it to ModalInstanceCtrl function
-                    console.log($scope.updatePath);
-                    return $scope.updatePath;
-                },
-                items: function () {
-                    return $scope.items;
-                }
-              }
-            });
-            modalInstance.result.then(function (selectedItem) {
-              $scope.selected = selectedItem;
-            }, function () {
-              $log.info('Modal dismissed at: ' + new Date());
+            $http.get('/products/producto_JSON/'+itemID).then(function(response){
+                $scope.jsonProducto = response.data;
+                var modalInstance = $modal.open({
+                  templateUrl: '/products/ModalTemplate',
+                  controller: ModalInstanceCtrl, // Call to the function with the same name outside the controller
+                  size: "lg",
+                  resolve: {
+                    updatePath: function(){ // If you want to send an other parameter you should add it to ModalInstanceCtrl function
+                        console.log($scope.updatePath);
+                        return $scope.updatePath;
+                    },
+                    items: function () {
+                        return $scope.items;
+                    },
+                    producto: function(){
+                        return $scope.jsonProducto;
+                    }
+                  }
+                });
+                modalInstance.result.then(function (selectedItem) {
+                  $scope.selected = selectedItem;
+                }, function () {
+                  $log.info('Modal dismissed at: ' + new Date());
+                });
             });
         };
 
-
     }]);
 
-    var ModalInstanceCtrl = function ($scope, $modalInstance, items, updatePath) {
+    var ModalInstanceCtrl = function ($scope, $modalInstance, items, updatePath, producto) {
       $scope.items = items;
       $scope.updatePath = updatePath;
+      $scope.producto = producto;
       $scope.selected = {
         item: $scope.items[0]
       };
@@ -157,6 +164,9 @@
 
     angular.module("ProductsListApp",["mainTables","myModule"]);
     
+
+
+
     // Prueba con select en cascada
     var cascadeApp = angular.module('cascadeModule', []);
     var cascadeController = function($scope, $http){
