@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+	<h3>Top 5 productos nuevos</h3>
+	<div class="results-list row">
+		{% for item in products %}
+		<div class="product col-sm-12 row">
+			<div class="image col-sm-4"></div>
+			<div class="details col-sm-8">
+				<a class="name" href="/products/detail/<%= item.id %>"><%= item.name %></a>
+				<label class="price"><%= numeral(item.price).format('$0,0.00') %></label>
+				<label><%= item.state %></label>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	<br>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends '../layout.html' %}
+
+{% block content %}
+<h1>Producto: <%= product.name %></h1>
+<input type="hidden" name="id" value="<%= product.id %>">
+<div>
+  <label>Nombre:</label>
+  <span><%= product.name %></span>
+</div>
+<div>
+  <label>Categoria:</label>
+  <span><%= product.category %></span>
+</div>
+<div>
+  <label>Precio:</label>
+  <span><%= product.price %></span>
+  {% if product.creationDate != undefined %}
+  <div>
+    <label>Fecha de publicación: &nbsp;</label>
+    <span><%= moment(product.creationDate).format("LL") %></span>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+

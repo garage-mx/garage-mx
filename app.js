@@ -1,19 +1,20 @@
 var express = require('express');
-var path = require('path');
+var path    = require('path');
 var favicon = require('static-favicon');
-var logger = require('morgan');
+var logger  = require('morgan');
 var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var session = require('express-session');
+var bodyParser= require('body-parser');
+var session   = require('express-session');
+var swig      = require('swig');
 
 // Plugin that formats dates
-var moment = require('moment');
+var moment  = require('moment');
 // Plugin that formats numerical values
 var numeral = require('numeral');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var products = require('./routes/products');
+var routes  = require('./routes/index');
+var users   = require('./routes/users');
+var products= require('./routes/products');
 
 /*-------Passport--------*/
 var flash = require('connect-flash');
@@ -41,8 +42,17 @@ app.use(multer({
 }))
 
 // view engine setup
+swig.setDefaults({ varControls: ['<%=', '%>'] });
+app.engine('html', swig.renderFile);
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'html');
+// Swig will cache templates for you, but you can disable
+// that and use Express's caching instead, if you like:
+app.set('view cache', false);
+// To disable Swig's cache, do the following:
+swig.setDefaults({ cache: false });
+// NOTE: You should always cache templates in a production environment.
+// Don't leave both of these to `false` in production!
 
 app.use(favicon());
 app.use(logger('dev'));
