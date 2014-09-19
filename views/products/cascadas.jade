@@ -9,3 +9,22 @@ block content
 		select(ng-model="producto" ng-disabled="!categoria")
 			option(value="") -- Seleccione un producto --
 			option(ng-repeat="item in productos" value="{{item.id}}") {{item.nombre}}
+	script(src="/socket.io/socket.io.js")
+	script.
+		$(document).ready(function(){
+			window.io = io.connect();
+
+			io.on("connect", function(socket){
+				console.log("hi");
+				io.emit("hola");
+				io.emit("saludo");
+			});
+			// Emit ready event.
+			io.on('saludo', function(data) {
+				console.log(data);
+			});
+
+			io.on('hola', function(data) {
+				console.log(data);
+			});
+		});

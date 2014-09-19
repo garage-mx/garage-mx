@@ -1,4 +1,4 @@
-var express = require('express');
+var express = require('express.io');
 var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
@@ -14,6 +14,7 @@ var numeral = require('numeral');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var products = require('./routes/products');
+var examples = require('./routes/examples');
 
 /*-------Passport--------*/
 var flash = require('connect-flash');
@@ -59,6 +60,8 @@ app.use(passport.session());
 
 app.locals.moment = require('moment');
 app.locals.numeral =require('numeral');
+
+app.http().io();
 
 // User schema for passport
 var Schema = login_db.Schema;
@@ -141,6 +144,7 @@ passport.use(new LocalStrategy(
 app.use('/', routes);
 app.use('/users', users);
 app.use('/products', products);
+app.use('/examples', examples);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -170,6 +174,12 @@ app.use(function(err, req, res, next) {
     res.render('error', {
         message: err.message,
         error: {}
+    });
+});
+
+app.io.route('hola', function(req) {
+    req.io.emit('saluda',{
+      mensaje: "Hola browser"
     });
 });
 

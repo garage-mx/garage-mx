@@ -1,0 +1,12 @@
+extends ../layout
+
+block content
+	h2 Ejemplo 1
+	script(type="text/javascript" src="/scripts/examplesScript.js")
+	div(ng-app="exampleApp1" ng-controller="remCharsController")
+		span(ng-class="{'text-warning' : shouldWarn()}") Remaining: {{remaining()}}
+		.row
+			textarea(ng-model="message") {{message}}
+		.row
+			button(ng-click="send()" ng-disabled="!hasValidLength()") Send
+			button(ng-click="clear()") Clear

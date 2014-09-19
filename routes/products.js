@@ -178,6 +178,7 @@ router.get('/productos_JSON', function(req, res){
 });
 
 router.get('/cascadas', function(req, res){
+  req.io.broadcast('saludo',{ nombre: "noel"});
   res.render('products/cascadas', { title: 'Prueba con angular' });
 });
 
@@ -192,5 +193,7 @@ router.get('/producto_JSON/:id', function(req, res){
     return res.json([producto]);
   });
 });
+
+
 
 module.exports = router;
