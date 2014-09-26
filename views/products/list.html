@@ -1,0 +1,67 @@
+{% extends '../layout.html' %}
+
+{% block styles %}
+  <link rel="stylesheet" href="http://bazalt-cms.com/assets/ng-table/0.3.1/ng-table.css"/>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+{% endblock %}
+
+{% block content %}
+  <h1>Productos</h1>
+  <p>Lista de productos</p>
+  <div ng-app="ProductsListApp">
+    <div ng-controller="TablesCtrl">
+      <span>Busqueda:</span>
+      <input type="text" ng-model="keysFilter" />
+      <br>
+      <span>Fuente de datos:</span>
+      <input type="text" ng-init="dataSource = '/products/list_JSON'" ng-model="dataSource" />
+      <br>
+      <br>
+      <label>Estatus:</label>
+      <span>{{statusMsg}}</span>
+      <table ng-table="tableParams" class="table" show-filter="true">
+        <tr ng-repeat="item in $data" ng-controller="ModalDemoCtrl">
+          <td data-title="'Nombre'" sortable="'name'" filter="{ 'name': 'text' }">{{item.name}}</td>
+          <td data-title="'Categoria'" sortable="'category'" filter="{ 'category': 'text' }">{{item.category}}</td>
+          <td data-title="'Edicion'"><a href="" ng-click="modal('/products/update/',item._id)">Actualizar</a></td>
+          <td data-title="'Borrado'"><a ng-href="/products/delete/{{item._id}}">Borrar</a></td>
+        </tr>
+      </table>
+    </div>
+    <br>
+    <a href="/products/new">Nuevo producto</a>
+
+    <div ng-controller="ModalDemoCtrl">
+      <button class="btn btn-default" ng-click="open()">Open me!</button>
+      <button class="btn btn-default" ng-click="open('lg')">Large modal</button>
+      <button class="btn btn-default" ng-click="open('sm')">Small modal</button>
+      <div ng-show="selected">Selection from a modal: {{ selected }}</div>
+    </div>
+  </div>
+  <br>
+  <br>
+{% endblock %}
+
+{% block scripts %}
+  <script type="text/javascript" src="http://bazalt-cms.com/assets/ng-table/0.3.1/ng-table.js"></script>
+  <script type="text/javascript" src="/scripts/ui-bootstrap-tpls-0.11.0.min.js"></script>
+  <script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">I'm a modal!</h3>
+    </div>
+    <div class="modal-body">
+        <ul>
+          <li ng-repeat="item in items">
+              <a ng-click="selected.item = item">{{ item }}</a>
+          </li>
+        </ul>
+        {{ selected.item }} <br />
+        
+        ¿Desea eliminar <b>{{ updatePath }}</b>?
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+  </script>
+{% endblock %}
