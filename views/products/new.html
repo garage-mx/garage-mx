@@ -4,7 +4,6 @@
 	<link rel='stylesheet' href='/stylesheets/uploader.css' />
 	<link rel='stylesheet' href='/stylesheets/ng-tags-input.css'/>
 	<link rel='stylesheet' href='//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css'/>
-	<link rel='stylesheet' href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css'/>
 {% endblock %}
 
 {% block content %}
@@ -32,23 +31,30 @@
 			<br>
 			<label>Imágen</label>
 			<input type="file" name="productPhoto" nv-file-select uploader="uploader"/>
-			<ul>
-				<li ng-repeat="item in uploader.queue">{{ item.file.name }}
-					<div ng-if="controller.isImage(item._file)">Thumbnail (only images):
+			<ul class="files-list">
+				<li class="row" ng-repeat="item in uploader.queue">
+					<div class="col-sm-2">
+						{{ item.file.name }}
+					</div>
+					<div class="col-sm-4" ng-if="controller.isImage(item._file)">
+						Thumbnail (only images):
 						<div ng-thumb="{ file: item._file, height: 100 }">
 							<img ng-src="{{item.imageUrl}}" ng-thumb="{ file: item._file, height: 100 }">
 						</div>
 					</div>
-					<div ng-show="uploader.isHTML5">
+					<div class="col-sm-4" ng-show="uploader.isHTML5">
 						<div class="item-progress-box">
 							<div class="item-progress" ng-style="{ 'width': item.progress + '%' }"></div>
 						</div>
 					</div>
-					<button ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">Subir</button>
-					<button ng-click="item.cancel()" ng-disabled="!item.isUploading">Cancelar</button>
-					<button ng-click="item.remove()">Remover</button>
-					<br>
-					<img id="uploadedImage" ng-src="{{imageUrl}}">
+					<div class="col-sm-3 controls">
+						<button ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">Subir</button>
+						<button ng-click="item.cancel()" ng-disabled="!item.isUploading">Cancelar</button>
+						<button ng-click="item.remove()">Remover</button>
+					</div>
+					<div class="col-sm-1">
+						<img id="uploadedImage" ng-src="{{imageUrl}}">
+					</div>
 				</li>
 			</ul>
 		</div>

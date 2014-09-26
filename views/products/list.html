@@ -2,7 +2,6 @@
 
 {% block styles %}
   <link rel="stylesheet" href="http://bazalt-cms.com/assets/ng-table/0.3.1/ng-table.css"/>
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
 {% endblock %}
 
 {% block content %}
@@ -19,6 +18,8 @@
       <br>
       <label>Estatus:</label>
       <span>{{statusMsg}}</span>
+      <br>
+      <a href="/products/new"><i class="fa fa-plus"></i> Nuevo producto</a>
       <table ng-table="tableParams" class="table" show-filter="true">
         <tr ng-repeat="item in $data" ng-controller="ModalDemoCtrl">
           <td data-title="'Nombre'" sortable="'name'" filter="{ 'name': 'text' }">{{item.name}}</td>
@@ -29,14 +30,6 @@
       </table>
     </div>
     <br>
-    <a href="/products/new">Nuevo producto</a>
-
-    <div ng-controller="ModalDemoCtrl">
-      <button class="btn btn-default" ng-click="open()">Open me!</button>
-      <button class="btn btn-default" ng-click="open('lg')">Large modal</button>
-      <button class="btn btn-default" ng-click="open('sm')">Small modal</button>
-      <div ng-show="selected">Selection from a modal: {{ selected }}</div>
-    </div>
   </div>
   <br>
   <br>

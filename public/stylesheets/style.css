@@ -84,3 +84,14 @@ a {
 .displayNone {
   display: none;
 }
+.files-list {
+  list-style: none;
+  padding: 0;
+}
+.files-list li {
+  width: 100%;
+  margin: 0;
+}
+.files-list li .controls {
+  float: right;
+}
